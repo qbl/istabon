@@ -26,3 +26,12 @@ Way using Puppet
     sudo yum install -y http://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
     sudo yum install -y puppetserver
     ```
+
+4. Configure a firewall for Puppet Server
+
+    ```
+    sudo systemctl enable firewalld
+    sudo systemctl start firewalld
+    sudo firewall-cmd --permanent --zone=public --add-port=8140/tcp
+    sudo firewall-cmd --reload
+    ```
