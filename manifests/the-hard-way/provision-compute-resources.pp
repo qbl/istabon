@@ -12,6 +12,17 @@ gcompute_region { 'asia-east1':
   credential => 'gauth-credential',
 }
 
+gcompute_zone { 'asia-east1-a':
+  project    => $project,
+  credential => 'gauth-credential',
+}
+
+gcompute_machine_type { 'n1-standard-1':
+  zone       => 'asia-east1-a',
+  project    => $project,
+  credential => 'gauth-credential',
+}
+
 gcompute_network { 'kubernetes-the-hard-way':
   ensure                  => present,
   auto_create_subnetworks => false,
@@ -66,4 +77,88 @@ gcompute_address { 'kubernetes-the-hard-way':
   region     => 'asia-east1',
   project    => $project,
   credential => 'gauth-credential',
+}
+
+gcompute_instance { 'controller-0':
+  ensure             => present,
+  can_ip_forward     => true,
+  machine_type       => 'n1-standard-1',
+  disks              => [
+    {
+      auto_delete    => true,
+      boot           => true,
+      initialize_params   => {
+        disk_size_gb      => 200,
+        source_image      => 'https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20181003',
+      },
+    },
+  ],
+  network_interfaces => [
+    {
+      network_ip     => '10.240.0.10',
+      subnetwork     => 'kubernetes',
+    },
+  ],
+  tags               => {
+    items => ['kubernetes-the-hard-way', 'controller']
+  },
+  zone               => 'asia-east1-a',
+  project            => $project,
+  credential         => 'gauth-credential',
+}
+
+gcompute_instance { 'controller-1':
+  ensure             => present,
+  can_ip_forward     => true,
+  machine_type       => 'n1-standard-1',
+  disks              => [
+    {
+      auto_delete    => true,
+      boot           => true,
+      initialize_params   => {
+        disk_size_gb      => 200,
+        source_image      => 'https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20181003',
+      },
+    },
+  ],
+  network_interfaces => [
+    {
+      network_ip     => '10.240.0.11',
+      subnetwork     => 'kubernetes',
+    },
+  ],
+  tags               => {
+    items => ['kubernetes-the-hard-way', 'controller']
+  },
+  zone               => 'asia-east1-a',
+  project            => $project,
+  credential         => 'gauth-credential',
+}
+
+gcompute_instance { 'controller-2':
+  ensure             => present,
+  can_ip_forward     => true,
+  machine_type       => 'n1-standard-1',
+  disks              => [
+    {
+      auto_delete    => true,
+      boot           => true,
+      initialize_params   => {
+        disk_size_gb      => 200,
+        source_image      => 'https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20181003',
+      },
+    },
+  ],
+  network_interfaces => [
+    {
+      network_ip     => '10.240.0.12',
+      subnetwork     => 'kubernetes',
+    },
+  ],
+  tags               => {
+    items => ['kubernetes-the-hard-way', 'controller']
+  },
+  zone               => 'asia-east1-a',
+  project            => $project,
+  credential         => 'gauth-credential',
 }
