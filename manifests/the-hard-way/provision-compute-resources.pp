@@ -162,3 +162,96 @@ gcompute_instance { 'controller-2':
   project            => $project,
   credential         => 'gauth-credential',
 }
+
+gcompute_instance { 'worker-0':
+  ensure             => present,
+  can_ip_forward     => true,
+  machine_type       => 'n1-standard-1',
+  metadata           => {
+    'pod-cidr' => '10.200.0.0/24'
+  },
+  disks              => [
+    {
+      auto_delete    => true,
+      boot           => true,
+      initialize_params   => {
+        disk_size_gb      => 200,
+        source_image      => 'https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20181003',
+      },
+    },
+  ],
+  network_interfaces => [
+    {
+      network_ip     => '10.240.0.20',
+      subnetwork     => 'kubernetes',
+    },
+  ],
+  tags               => {
+    items => ['kubernetes-the-hard-way', 'worker']
+  },
+  zone               => 'asia-east1-a',
+  project            => $project,
+  credential         => 'gauth-credential',
+}
+
+gcompute_instance { 'worker-1':
+  ensure             => present,
+  can_ip_forward     => true,
+  machine_type       => 'n1-standard-1',
+  metadata           => {
+    'pod-cidr' => '10.200.1.0/24'
+  },
+  disks              => [
+    {
+      auto_delete    => true,
+      boot           => true,
+      initialize_params   => {
+        disk_size_gb      => 200,
+        source_image      => 'https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20181003',
+      },
+    },
+  ],
+  network_interfaces => [
+    {
+      network_ip     => '10.240.0.21',
+      subnetwork     => 'kubernetes',
+    },
+  ],
+  tags               => {
+    items => ['kubernetes-the-hard-way', 'worker']
+  },
+  zone               => 'asia-east1-a',
+  project            => $project,
+  credential         => 'gauth-credential',
+}
+
+gcompute_instance { 'worker-2':
+  ensure             => present,
+  can_ip_forward     => true,
+  machine_type       => 'n1-standard-1',
+  metadata           => {
+    'pod-cidr' => '10.200.2.0/24'
+  },
+  disks              => [
+    {
+      auto_delete    => true,
+      boot           => true,
+      initialize_params   => {
+        disk_size_gb      => 200,
+        source_image      => 'https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20181003',
+      },
+    },
+  ],
+  network_interfaces => [
+    {
+      network_ip     => '10.240.0.22',
+      subnetwork     => 'kubernetes',
+    },
+  ],
+  tags               => {
+    items => ['kubernetes-the-hard-way', 'worker']
+  },
+  zone               => 'asia-east1-a',
+  project            => $project,
+  credential         => 'gauth-credential',
+}
