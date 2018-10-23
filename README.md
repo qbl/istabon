@@ -4,7 +4,7 @@ An experiment to provision Kubernetes cluster a la Kubernetes The Hard Way using
 
 # The Easy Way
 
-## 0. Creating Puppet Server
+## 0. Creating Puppet Server Instance
 
 1. Create a compute instance
 
@@ -98,5 +98,3 @@ An experiment to provision Kubernetes cluster a la Kubernetes The Hard Way using
     kubectl get nodes
     kubectl get pods -n kube-system
     ```
-
-
