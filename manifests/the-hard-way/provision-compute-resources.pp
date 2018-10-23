@@ -27,3 +27,36 @@ gcompute_subnetwork { 'kubernetes':
   project       => $project,
   credential    => 'gauth-credential',
 }
+
+gcompute_firewall { 'kubernetes-the-hard-way-allow-internal':
+  ensure      => present,
+  allowed     => [
+    { ip_protocol => 'tcp' },
+    { ip_protocol => 'udp' },
+    { ip_protocol => 'icmp' },
+  ],
+  source_ranges => [
+    '10.240.0.0/24',
+    '10.200.0.0/16',
+  ],
+  network     => 'projects/qblfrb-kubernetes-lab/global/networks/kubernetes-the-hard-way',
+  project     => $project,
+  credential  => 'gauth-credential',
+}
+
+gcompute_firewall { 'kubernetes-the-hard-way-allow-external':
+  ensure      => present,
+  allowed     => [
+    {
+      ip_protocol => ['tcp'],
+      ports       => ['22', '6443'],
+    },
+    {
+      ip_protocol => ['icmp'],
+    },
+  ],
+  source_ranges => ['0.0.0.0/0'],
+  network     => 'projects/qblfrb-kubernetes-lab/global/networks/kubernetes-the-hard-way',
+  project     => $project,
+  credential  => 'gauth-credential',
+}
