@@ -6,17 +6,17 @@ gauth_credential { 'gauth-credential':
   scopes   => ['https://www.googleapis.com/auth/compute'],
 }
 
+gcompute_region { 'asia-east1':
+  name       => 'asia-east1',
+  project    => $project,
+  credential => 'gauth-credential',
+}
+
 gcompute_network { 'kubernetes-the-hard-way':
   ensure                  => present,
   auto_create_subnetworks => false,
   project                 => $project,
   credential              => 'gauth-credential',
-}
-
-gcompute_region { 'asia-east1':
-  name       => 'asia-east1',
-  project    => $project,
-  credential => 'gauth-credential',
 }
 
 gcompute_subnetwork { 'kubernetes':
@@ -59,4 +59,11 @@ gcompute_firewall { 'kubernetes-the-hard-way-allow-external':
   network     => 'projects/qblfrb-kubernetes-lab/global/networks/kubernetes-the-hard-way',
   project     => $project,
   credential  => 'gauth-credential',
+}
+
+gcompute_address { 'kubernetes-the-hard-way':
+  ensure     => present,
+  region     => 'asia-east1',
+  project    => $project,
+  credential => 'gauth-credential',
 }
