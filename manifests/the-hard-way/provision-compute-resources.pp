@@ -12,3 +12,18 @@ gcompute_network { 'kubernetes-the-hard-way':
   project                 => $project,
   credential              => 'gauth-credential',
 }
+
+gcompute_region { 'asia-east1':
+  name       => 'asia-east1',
+  project    => $project,
+  credential => 'gauth-credential',
+}
+
+gcompute_subnetwork { 'kubernetes':
+  ensure        => present,
+  ip_cidr_range => '10.240.0.0/24',
+  network       => 'kubernetes-the-hard-way',
+  region        => 'asia-east1',
+  project       => $project,
+  credential    => 'gauth-credential',
+}
